@@ -1,0 +1,26 @@
+{
+	"name": "com.lokeldigital.lokeljobdemo",
+	"displayName": "Lokel Digital C# Job System Demo",
+	"version": "1.0.0",
+	"unity": "2019.4",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/WazzaMLD/CSharp-Job-Demo.git",
+		"revision": ""
+	},
+  "description": "Unity C# Job System Demo",
+  "dependencies": {
+    "com.lokeldigital.lokel.collections": "https://github.com/WazzaMLD/Lokel-JobSystem-Collections.git"
+  },
+	"keywords": [
+		"job",
+		"demo",
+    "shockwave",
+    "sinusoidal"
+	],
+  "author": {
+    "name": "Warwick Molloy",
+    "email": "wazzam@lokeldigital.com",
+    "url": "https://www.lokeldigital.com"
+  } 
+}
