@@ -33,9 +33,31 @@ and wiggle in a 3D sinusoidal pattern.
 Demonstrates the ***Shockwave Controller*** in the `Lokel.Shockwave` namespace
 for making tiles that can be disrupted by a randomly placed shockwave.
 
-# Using in Your Project
+# Using this in Your Project
 
-The easiest way to cleanly use this package is via the Unity Package Manager... [follow this link for instructions](https://docs.unity3d.com/Manual/upm-ui-giturl.html)
+## Option 1 - Via Package Manager
+
+The easiest way to cleanly use this package is via the Unity Package Manager...
+However, this needs to be done in two steps because git packages listed as a dependency
+will NOT be installed by the package manager, so you need to do it in two steps:
+
+| Step                                  | URL to use with Unity Package Manager                       |
+|---------------------------------------|-------------------------------------------------------------|
+| Install the Lokel Collections package | https://github.com/WazzaMLD/Lokel-JobSystem-Collections.git |
+| Install this package                  | https://github.com/WazzaMLD/CSharp-Job-Demo.git             |
+
+1. Open the Package Manager tab from the menu `Window | Package Manager`
+2. In the top-left you will see a plus sign (`+`) with
+a little pull-down menu. Click this to choose the package install
+method; select `add package from Git URL...` 
+3. Copy/Paste the URL from above into the empty text field box and click the `Add` button on the right of it.
+4. The package should import and the Unity asset import dialog box should appear briefly.
+
+If the steps above don't make sense, take a look at this with
+screenshots and step-by-step instructions
+[Installing from a Git URL - Unity Manual](https://docs.unity3d.com/Manual/upm-ui-giturl.html)
+
+## Options 2 - Download the Code Into Your Project
 
 Alternatively, you may want to download a ZIP from the GitHub
 repository and unpack that into your Unity Project. Just make sure you have it in a subfolder of your ***Assets*** folder to avoid
