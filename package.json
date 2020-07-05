@@ -13,7 +13,7 @@
 "com.unity.burst": "1.2.3",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.mathematics": "1.1.0",
-    "com.lokeldigital.lokel.collections": "https://github.com/WazzaMLD/Lokel-JobSystem-Collections.git"
+    "com.lokeldigital.lokel.collections": "https://github.com/WazzaMLD/Lokel-JobSystem-Collections.git#efe0a284a2513082eff1bdbfab3d3981b61a29c7"
   },
 	"keywords": [
 		"job",
