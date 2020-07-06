@@ -28,8 +28,8 @@ namespace Lokel.Shockwave
         [SerializeField]
         private ShockMasterParams _Params = ShockMasterParams.Defaults();
 
-        private NativeArray<float4> _ShockwaveCells;
-        private NativeQueue<float4> _Centres;
+        private NativeArray<ShockwaveData> _ShockwaveCells;
+        private NativeQueue<ShockwaveData> _Centres;
 
         private Transform[] _Transforms;
         private float2[] _Positions;
@@ -43,8 +43,10 @@ namespace Lokel.Shockwave
             float x = UnityEngine.Random.Range(0f, _Params.Size.x);
             float y = UnityEngine.Random.Range(0f, _Params.Size.y);
 
-            float4 centre = new float4(x, y, -_Params.HeightFactor, math.PI / 2);
-            _CentresHandle = QueueJob<float4>.AsyncEnqueue(_Centres, centre, _CentresHandle);
+            ShockwaveData centre = ShockwaveData.Create(
+                x, y, -_Params.HeightFactor, math.PI / 2
+            );
+            _CentresHandle = QueueJob<ShockwaveData>.AsyncEnqueue(_Centres, centre, _CentresHandle);
         }
 
         private void Awake()
@@ -92,7 +94,7 @@ namespace Lokel.Shockwave
         class SimData
         {
             public ShockMasterParams Params;
-            public NativeArray<float4> Cells;
+            public NativeArray<ShockwaveData> Cells;
             public JobHandle PriorJob;
         }
 
@@ -115,8 +117,8 @@ namespace Lokel.Shockwave
             _CentresHandle.Complete();
             if (_Centres.QueueDepth() > 0)
             {
-                _Centres.VisitAllItemsNewestToOldest<SimData>(data, (float4 centre, SimData sim) =>
-                {
+                _Centres.VisitAllItemsNewestToOldest<SimData>(data,
+                    (ShockwaveData centre, SimData sim) => {
                     sim.PriorJob = ShockwaveSimJob.Begin(
                         centre,
                         sim.Params,
@@ -142,10 +144,7 @@ namespace Lokel.Shockwave
                 if (centre.Angle() < _Params.Cutoff)
                 {
                     _Centres.TryEnqueue(centre);
-                    //Debug.Log($"Re-enqueing {centre}");
                 }
-                //else
-                //    Debug.Log($"Dropping Centre: {centre}");
             }
         }
 
@@ -159,7 +158,9 @@ namespace Lokel.Shockwave
         private void CreateShockwaveData()
         {
             _ShockwaveCells = CreateDataArray();
-            _Centres = new NativeQueue<float4>(_ShockwaveCells.Length, 0, Allocator.Persistent);
+            _Centres = new NativeQueue<ShockwaveData>(
+                _ShockwaveCells.Length, default, Allocator.Persistent
+            );
         }
 
         private void PopulateShockwaveData()
@@ -170,8 +171,8 @@ namespace Lokel.Shockwave
             }
         }
 
-        private NativeArray<float4> CreateDataArray()
-            => new NativeArray<float4>(
+        private NativeArray<ShockwaveData> CreateDataArray()
+            => new NativeArray<ShockwaveData>(
                 _Params.Size.x * _Params.Size.y, Allocator.Persistent
             );
 

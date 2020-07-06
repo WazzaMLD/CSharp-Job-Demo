@@ -17,15 +17,16 @@ using Lokel.Util;
 using Time = UnityEngine.Time;
 using Lokel.Collections;
 
+
 namespace Lokel.Shockwave
 {
 
     /// <summary>Performs background updates on each centre.</summary>
     [BurstCompile]
-    public struct ShockwaveCentreSimJob : IQueueIterator<float4>
+    public struct ShockwaveCentreSimJob : IQueueIterator<ShockwaveData>
     {
         public static JobHandle Begin(
-            NativeQueue<float4> centres,
+            NativeQueue<ShockwaveData> centres,
             ShockMasterParams settings,
             JobHandle dependency = default
         )
@@ -35,15 +36,15 @@ namespace Lokel.Shockwave
                 deltaTime = Time.deltaTime,
                 Params = settings
             };
-            return QueueJob<float4>.AsycIterate(centres, iterator, dependency);
+            return QueueJob<ShockwaveData>.AsycIterate(centres, iterator, dependency);
         }
 
         public ShockMasterParams Params;
         public float deltaTime;
-        private NativeArray<float4> _Data;
+        private NativeArray<ShockwaveData> _Data;
         private OutValue<int> _Count;
 
-        public NativeArray<float4> Store { set => _Data = value; }
+        public NativeArray<ShockwaveData> Store { set => _Data = value; }
         public OutValue<int> Count { set => _Count = value; }
 
         public void Execute()
@@ -56,17 +57,26 @@ namespace Lokel.Shockwave
 
         private void Iterate(int index)
         {
+            ShockwaveData centre = _Data[index];
+
             float height;
-            float4 centre = _Data[index];
-            float angle = centre.w;
-            float2 pos = new float2(centre.x, centre.y);
+            float angle = centre.Angle();
+            float2 pos = centre.Position();
+
 
             angle += deltaTime * math.PI;
 
             float diminishing = ShockDataExt.DiminishingFactor(Params, angle);
 
-            height = (diminishing * Params.HeightFactor * math.sin(angle) ).ZeroIfSmall();
-            _Data[index] = new float4(pos.x, pos.y, height, angle);
+            height = (diminishing * Params.HeightFactor * math.sin(angle)).ZeroIfSmall();
+
+            _Data[index] = new ShockwaveData()
+            {
+                Position = pos,
+                Height = height,
+                Angle = angle,
+                NumberCentres = index
+            };
         }
     }
 

@@ -19,10 +19,10 @@ namespace Lokel.Shockwave
     [BurstCompile]
     public struct ShockwaveSimJob : IJobParallelFor
     {
-        public NativeArray<float4> Cells;
+        public NativeArray<ShockwaveData> Cells;
 
         [ReadOnly]
-        public float4 Centre;
+        public ShockwaveData Centre;
 
         [ReadOnly]
         private bool IsNoCentre;
@@ -31,9 +31,9 @@ namespace Lokel.Shockwave
         public ShockMasterParams Params;
 
         public static JobHandle Begin(
-            float4 centre,
+            ShockwaveData centre,
             ShockMasterParams masterParams,
-            NativeArray<float4> cells,
+            NativeArray<ShockwaveData> cells,
             JobHandle dependency
         )
         {
@@ -80,37 +80,49 @@ namespace Lokel.Shockwave
         private void ProcessWithCentre(int index)
         {
             float2 cellPos = Cells[index].Position();
-            float cellHeight = Cells[index].z;
-            float cellAngle = Cells[index].w;
+            float cellHeight = Cells[index].Height();
+            float cellAngle = Cells[index].Angle();
+            int numCentres = Cells[index].NumberCentres;
+            float totalHeight = Cells[index].TotalHeight;
 
             float distance = ShockDataExt.Distance(cellPos, Centre.Position());
 
-            float additionalHeight 
-                = distance < Params.InfluenceRadius
-                ? (Centre.Height() / (1 + distance)).ZeroIfSmall()
-                : 0;
+            float additionalHeight;
+            if (distance < Params.InfluenceRadius)
+            {
+                additionalHeight = 
+                    (Centre.Height() / (1 + distance)).ZeroIfSmall();
+                cellHeight =
+                    (ShockDataExt.DiminishingFactor(Params, Centre.Angle())
+                    * cellHeight).ZeroIfSmall();
+            }
+            else
+            {
+                additionalHeight = 0;
+            }
 
-            cellHeight = distance < Params.InfluenceRadius
-                ? (ShockDataExt.DiminishingFactor(Params,Centre.Angle()) * cellHeight).ZeroIfSmall()
-                : cellHeight;
+            cellHeight += (additionalHeight);
 
-            cellHeight = cellHeight + additionalHeight;
-
-            Cells[index] = new float4(cellPos.x, cellPos.y, cellHeight, cellAngle);
+            Cells[index] =
+                new ShockwaveData()
+                {
+                    Position = cellPos,
+                    Height = cellHeight,
+                    Angle = cellAngle,
+                    NumberCentres = numCentres + 1,
+                    TotalHeight = totalHeight + additionalHeight
+                };
         }
 
         private void ProcessNoCentre(int index)
         {
             float cellHeight = Cells[index].Height();
 
-            float diminishing = math.pow(
-                (1 - Params.DecayRatePerSecond),
-                Centre.TimeInSeconds()
-            );
+            cellHeight = (
+                    ShockDataExt.DiminishingFactor(Params, Centre.Angle()) * cellHeight
+                ).ZeroIfSmall();
 
-            cellHeight =  (cellHeight * diminishing).ZeroIfSmall();
-
-            Cells[index] = new float4(
+            Cells[index] = ShockwaveData.Create(
                 Cells[index].Position(),
                 cellHeight,
                 Cells[index].Angle()

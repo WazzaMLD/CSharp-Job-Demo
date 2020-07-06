@@ -15,16 +15,21 @@ namespace Lokel.Shockwave
 
     public static class ShockDataExt
     {
-        public static float Height(this float4 value) => value.z;
-        public static float Angle(this float4 value) => value.w;
-        public static float TimeInSeconds(this float4 value) => value.Angle() / math.PI;
-        public static float2 Position(this float4 value) => new float2(value.x, value.y);
+        public static float Height(this ShockwaveData value) => value.Height;
 
-        public static (float2 position, float height, float angle) ToParts(this float4 value)
-            => (value.Position(), value.Height(), value.Angle());
+        public static float CentreAdjustedHeight(this ShockwaveData value)
+            => value.Height / (1 + value.NumberCentres);
 
-        public static float4 FromParts(float2 pos, float height, float angle)
-            => new float4(pos.x, pos.y, height, angle);
+        public static float Angle(this ShockwaveData value) => value.Angle;
+        public static float TimeInSeconds(this ShockwaveData value) => value.Angle() / math.PI;
+        public static float2 Position(this ShockwaveData value) => value.Position;
+
+        public static (float2 position, float height, float angle) ToParts(
+            this ShockwaveData value
+        )   => (value.Position(), value.Height(), value.Angle());
+
+        public static ShockwaveData FromParts(float2 pos, float height, float angle)
+            => ShockwaveData.Create(pos, height, angle);
 
         public static float Distance(float2 pos1, float2 pos2)
             => math.sqrt(FloatExt.square(pos1 - pos2).SumXY());

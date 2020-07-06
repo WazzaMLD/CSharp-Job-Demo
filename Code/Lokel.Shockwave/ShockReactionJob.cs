@@ -17,7 +17,7 @@ namespace Lokel.Shockwave
 {
     internal struct ShockReactionJob : IJobParallelForTransform
     {
-        public NativeArray<float4> Cells;
+        public NativeArray<ShockwaveData> Cells;
 
         public void Execute(int index, TransformAccess transform)
         {
@@ -28,7 +28,7 @@ namespace Lokel.Shockwave
         }
 
         public static JobHandle Begin(
-            NativeArray<float4> cells,
+            NativeArray<ShockwaveData> cells,
             TransformAccessArray transforms,
             JobHandle dependency
         )
