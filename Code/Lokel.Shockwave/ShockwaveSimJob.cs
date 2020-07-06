@@ -25,9 +25,6 @@ namespace Lokel.Shockwave
         public ShockwaveData Centre;
 
         [ReadOnly]
-        private bool IsNoCentre;
-
-        [ReadOnly]
         public ShockMasterParams Params;
 
         public static JobHandle Begin(
@@ -37,96 +34,68 @@ namespace Lokel.Shockwave
             JobHandle dependency
         )
         {
-            float angle = centre.Angle();
-
             ShockwaveSimJob job = new ShockwaveSimJob()
             {
                 Cells = cells,
                 Centre = centre,
-                IsNoCentre = !(angle * angle > 0f),
                 Params = masterParams
             };
             return IJobParallelForExtensions.Schedule(
                 job,
                 cells.Length,
-                GetInnerLoopCountFromSize(masterParams.Size),
+                ShockDataExt.GetInnerLoopCountFromSize(masterParams),
                 dependency
             );
         }
 
-        private static int GetInnerLoopCountFromSize(float2 size) => (int)size.x;
-
         public void Execute(int index)
         {
-            if (IsNoCentre)
-                ProcessNoCentre(index);
+            if (IsCentre(index))
+                UpdateCentre(index);
             else
-            {
-                if (IsCentre(index))
-                    UpdateCentre(index);
-                else
-                    ProcessWithCentre(index);
-            }
+                ProcessWithCentre(index);
         }
 
         private bool IsCentre(int index)
-        => IndexTool.ToIndex(Centre.Position(), Params.Size) == index;
+        => IndexTool.ToIndex(Centre.Position, Params.Size) == index;
 
         private void UpdateCentre(int index)
         {
-            Cells[index] = Centre;
+            Cells[index] = new ShockwaveData()
+            {
+                Position = Centre.Position,
+                WaveTime = Centre.WaveTime,
+                Height = Cells[index].Height,
+                AdditionalHeight = Centre.Height,
+                NumberCentres = 1
+            };
         }
 
         private void ProcessWithCentre(int index)
         {
-            float2 cellPos = Cells[index].Position();
-            float cellHeight = Cells[index].Height();
-            float cellAngle = Cells[index].Angle();
+            float2 cellPos = Cells[index].Position;
+            float cellHeight = Cells[index].Height;
+            float time = Cells[index].WaveTime;
             int numCentres = Cells[index].NumberCentres;
-            float totalHeight = Cells[index].TotalHeight;
 
-            float distance = ShockDataExt.Distance(cellPos, Centre.Position());
+            float distance = ShockDataExt.Distance(cellPos, Centre.Position);
 
-            float additionalHeight;
+            float additionalHeight = Cells[index].AdditionalHeight;
+
             if (distance < Params.InfluenceRadius)
             {
-                additionalHeight = 
-                    (Centre.Height() / (1 + distance)).ZeroIfSmall();
-                cellHeight =
-                    (ShockDataExt.DiminishingFactor(Params, Centre.Angle())
-                    * cellHeight).ZeroIfSmall();
+                additionalHeight = (Centre.Height / (1 + distance)).ZeroIfSmall();
             }
-            else
-            {
-                additionalHeight = 0;
-            }
-
-            cellHeight += (additionalHeight);
 
             Cells[index] =
                 new ShockwaveData()
                 {
                     Position = cellPos,
                     Height = cellHeight,
-                    Angle = cellAngle,
+                    WaveTime = time,
                     NumberCentres = numCentres + 1,
-                    TotalHeight = totalHeight + additionalHeight
+                    AdditionalHeight = additionalHeight
                 };
-        }
-
-        private void ProcessNoCentre(int index)
-        {
-            float cellHeight = Cells[index].Height();
-
-            cellHeight = (
-                    ShockDataExt.DiminishingFactor(Params, Centre.Angle()) * cellHeight
-                ).ZeroIfSmall();
-
-            Cells[index] = ShockwaveData.Create(
-                Cells[index].Position(),
-                cellHeight,
-                Cells[index].Angle()
-            );
         }
     }
 

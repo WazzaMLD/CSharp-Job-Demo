@@ -22,8 +22,7 @@ namespace Lokel.Shockwave
         public void Execute(int index, TransformAccess transform)
         {
             float3 pos = transform.position;
-            (_, float height, _) = Cells[index].ToParts();
-            pos.y = height;
+            pos.y = Cells[index].Height;
             transform.position = pos;
         }
 

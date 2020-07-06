@@ -16,31 +16,33 @@ namespace Lokel.Shockwave
     {
         public float2 Position;
         public float Height;
-        public float Angle;
+        public float WaveTime;
         public int NumberCentres;
-        public float TotalHeight;
+        public float AdditionalHeight;
+
+        public float Angle { get => (WaveTime + 0.5f) * math.PI; }
 
         public static ShockwaveData Create(
             float2 position,
             float height,
-            float angle
+            float waveTime = 0
         )
         {
             return new ShockwaveData()
             {
                 Position = position,
                 Height = height,
-                Angle = angle,
+                WaveTime = waveTime,
                 NumberCentres = 0,
-                TotalHeight = 0
+                AdditionalHeight = 0
             };
         }
 
         public static ShockwaveData Create(
             float x, float y,
             float height,
-            float angle
-        ) => Create(new float2(x, y), height, angle);
+            float waveTime
+        ) => Create(new float2(x, y), height, waveTime);
     }
 
 }

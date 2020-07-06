@@ -60,21 +60,21 @@ namespace Lokel.Shockwave
             ShockwaveData centre = _Data[index];
 
             float height;
-            float angle = centre.Angle();
-            float2 pos = centre.Position();
+            float time = centre.WaveTime;
+            float2 pos = centre.Position;
 
 
-            angle += deltaTime * math.PI;
+            time += deltaTime;
 
-            float diminishing = ShockDataExt.DiminishingFactor(Params, angle);
+            float diminishing = ShockDataExt.DiminishingFactor(Params, time);
 
-            height = (diminishing * Params.HeightFactor * math.sin(angle)).ZeroIfSmall();
+            height = (diminishing * Params.HeightFactor * math.sin(centre.Angle)).ZeroIfSmall();
 
             _Data[index] = new ShockwaveData()
             {
                 Position = pos,
                 Height = height,
-                Angle = angle,
+                WaveTime = time,
                 NumberCentres = index
             };
         }

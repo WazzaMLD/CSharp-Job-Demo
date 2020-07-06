@@ -115,23 +115,16 @@ namespace Lokel.Shockwave
             };
 
             _CentresHandle.Complete();
-            if (_Centres.QueueDepth() > 0)
-            {
-                _Centres.VisitAllItemsNewestToOldest<SimData>(data,
-                    (ShockwaveData centre, SimData sim) => {
-                    sim.PriorJob = ShockwaveSimJob.Begin(
-                        centre,
-                        sim.Params,
-                        sim.Cells,
-                        sim.PriorJob
-                    );
-                });
-                return data.PriorJob;
-            }
-            else
-            {
-                return ShockwaveSimJob.Begin(default, _Params, _ShockwaveCells, data.PriorJob);
-            }
+            _Centres.VisitAllItemsNewestToOldest<SimData>(data,
+                (ShockwaveData centre, SimData sim) => {
+                sim.PriorJob = ShockwaveSimJob.Begin(
+                    centre,
+                    sim.Params,
+                    sim.Cells,
+                    sim.PriorJob
+                );
+            });
+            return ShockwaveSuperpositionJob.Begin(_ShockwaveCells, _Params, data.PriorJob);
         }
 
         private JobHandle MoveShockwaveCells(JobHandle simHandle)
@@ -141,7 +134,7 @@ namespace Lokel.Shockwave
         {
             if (_Centres.TryDequeue(out var centre))
             {
-                if (centre.Angle() < _Params.Cutoff)
+                if (centre.WaveTime < _Params.Cutoff)
                 {
                     _Centres.TryEnqueue(centre);
                 }
