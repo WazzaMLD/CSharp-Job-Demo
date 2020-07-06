@@ -14,6 +14,7 @@ namespace Lokel.Shockwave
     using RangeAttribute = UnityEngine.RangeAttribute;
 
     using Unity.Mathematics;
+    using UnityEngine;
 
     /// <summary>Master control variables to pass to the jobs and populate in Editor</summary>
     [Serializable]
@@ -22,7 +23,8 @@ namespace Lokel.Shockwave
         [Tooltip("Cutoff Threshold - how big in seconds")]
         public float Cutoff;
 
-        [Tooltip("% drop each second")]
+        [Tooltip("Fraction drop each second")]
+        [Range(0,1f)]
         public float DecayRatePerSecond;
 
         [Tooltip("Influence factor of one link to another before hitting limit")]
@@ -30,10 +32,6 @@ namespace Lokel.Shockwave
 
         [Tooltip("Max height")]
         public float HeightFactor;
-
-        [Tooltip("How much will momentum be maintained, frame to frame")]
-        [Range(0f, 1f)]
-        public float SustainRate;
 
         [Tooltip("Size of the shockwave surface")]
         public int2 Size;

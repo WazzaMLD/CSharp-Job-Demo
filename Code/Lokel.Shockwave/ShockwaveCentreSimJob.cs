@@ -63,7 +63,7 @@ namespace Lokel.Shockwave
 
             angle += deltaTime * math.PI;
 
-            float diminishing = ShockData.DiminishingFactor(Params, angle);
+            float diminishing = ShockDataExt.DiminishingFactor(Params, angle);
 
             height = (diminishing * Params.HeightFactor * math.sin(angle) ).ZeroIfSmall();
             _Data[index] = new float4(pos.x, pos.y, height, angle);

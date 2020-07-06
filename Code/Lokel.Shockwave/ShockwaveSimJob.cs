@@ -83,7 +83,7 @@ namespace Lokel.Shockwave
             float cellHeight = Cells[index].z;
             float cellAngle = Cells[index].w;
 
-            float distance = ShockData.Distance(cellPos, Centre.Position());
+            float distance = ShockDataExt.Distance(cellPos, Centre.Position());
 
             float additionalHeight 
                 = distance < Params.InfluenceRadius
@@ -91,7 +91,7 @@ namespace Lokel.Shockwave
                 : 0;
 
             cellHeight = distance < Params.InfluenceRadius
-                ? (ShockData.DiminishingFactor(Params,Centre.Angle()) * cellHeight).ZeroIfSmall()
+                ? (ShockDataExt.DiminishingFactor(Params,Centre.Angle()) * cellHeight).ZeroIfSmall()
                 : cellHeight;
 
             cellHeight = cellHeight + additionalHeight;

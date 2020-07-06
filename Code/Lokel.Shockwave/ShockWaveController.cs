@@ -15,7 +15,6 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Jobs;
-using System.Runtime.CompilerServices;
 
 namespace Lokel.Shockwave
 {
@@ -167,7 +166,7 @@ namespace Lokel.Shockwave
         {
             for(int index = 0; index < _Positions.Length; index++)
             {
-                _ShockwaveCells[index] = ShockData.FromParts(_Positions[index], 0, 0);
+                _ShockwaveCells[index] = ShockDataExt.FromParts(_Positions[index], 0, 0);
             }
         }
 
