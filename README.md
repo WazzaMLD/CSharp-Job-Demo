@@ -17,6 +17,7 @@ of the C# Job System and the various collections where discovered.
 The Scenes folder has multiple scenes:
 - Sinusoid
 - Shockwave
+- Shockwave-Physics
 
 The Add Component menu is extended with GameObject components under
 "Lokel Utils" or "Lokel" group.
@@ -30,10 +31,19 @@ and wiggle in a 3D sinusoidal pattern.
 
 ### Shockwave Scene
 
-Demonstrates the ***Shockwave Controller*** in the `Lokel.Shockwave` namespace
-for making tiles that can be disrupted by a randomly placed shockwave.
+Demonstrates the ***Shockwave Physics*** in the `Lokel.Shockwave` namespace
+working with a Random Shockwave Trigger. Click the Trigger Shockwave button
+on the bottom-right of the screen to see a shockwave triggered somewhere on the
+generated floor.
 
-# Using this in Your Project
+### Shockwave-Physics Scene
+
+Demonstrates the ***Shockwave Physics*** in the `Lokel.Shockwave` namespace
+using a collision to trigger a shockwave via the Collision Shockwave Trigger
+component. This is added to the floor tile prefab and tells the Shockwave Physics
+component to insert a shockwave at a given position on the floor.
+
+This scene includes a rudimentary cannon and sounds just to bring it together.
 
 ## Option 1 - Via Package Manager
 
