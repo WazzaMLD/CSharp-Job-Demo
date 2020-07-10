@@ -35,6 +35,7 @@ namespace Lokel.Shockwave
 
         private Transform _CannonBase;
         private AudioSource _Audio;
+        private ParticleSystem _SmokeEmitter;
         private bool _IsReady;
 
         public void OnBaseYawClockwise()
@@ -66,12 +67,18 @@ namespace Lokel.Shockwave
                 );
                 SetCannonBallInMotion(cannonBall);
                 MakeSoundIfAvailable();
+                MakeSmokeIfAvailable();
             }
         }
 
         private void MakeSoundIfAvailable()
         {
             if (_Audio.clip != null) _Audio.Play();
+        }
+
+        private void MakeSmokeIfAvailable()
+        {
+            if (_SmokeEmitter != null) _SmokeEmitter.Play();
         }
 
         private void RotateBaseIfValid(float angleChange)
@@ -117,6 +124,7 @@ namespace Lokel.Shockwave
         {
             _CannonBase = GetComponent<Transform>();
             _Audio = GetComponent<AudioSource>();
+            _SmokeEmitter = GetComponentInChildren<ParticleSystem>();
             CheckMandatoryInspectorFields();
         }
 
