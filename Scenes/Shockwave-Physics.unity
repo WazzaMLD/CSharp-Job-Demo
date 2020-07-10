@@ -2170,7 +2170,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1924725332}
   - component: {fileID: 1924725331}
-  - component: {fileID: 1924725333}
   m_Layer: 0
   m_Name: Shockwave
   m_TagString: Untagged
@@ -2193,13 +2192,13 @@ MonoBehaviour:
   Template: {fileID: 5595079516103461764, guid: 4fd60869566a0b84f811e9fc2a1c3ecb,
     type: 3}
   _Params:
-    Cutoff: 5
-    DecayRatePerSecond: 0.75
-    InfluenceRadius: 8
-    HeightFactor: 1.5
+    Cutoff: 6
+    DecayRatePerSecond: 0.8
+    InfluenceRadius: 12
+    HeightFactor: 2.5
     Size:
-      x: 50
-      y: 50
+      x: 40
+      y: 40
 --- !u!4 &1924725332
 Transform:
   m_ObjectHideFlags: 0
@@ -2214,18 +2213,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1924725333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924725330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4165ea9f03a748d4b8ce2986434fd0f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1958952165
 GameObject:
   m_ObjectHideFlags: 0
