@@ -90,7 +90,7 @@ with the original repo. From this fork, raise a pull-request.
 
 After racking my brain on why defining the dependency of this package on the
 Lokel JobSystem Collections package in GitHub would fail (try but fail) via
-the Unity Package Manager (UPM) ***unless it was already installed** I found this
+the Unity Package Manager (UPM) ***unless it was already installed*** I found this
 project that extends UPM to provide the missing support.... FACEPALM. Unity's own
 documentation seems to promise that it should work but it doesn't so kudos to the
 author of this repo for doing something about it.
