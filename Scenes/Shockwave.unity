@@ -982,7 +982,7 @@ MonoBehaviour:
   Template: {fileID: 452465778855739330, guid: f09f6086559634a4292309ad894ba056, type: 3}
   _Params:
     Cutoff: 5
-    DecayRatePerSecond: 0.5
+    DecayRatePerSecond: 0.574
     InfluenceRadius: 15
     HeightFactor: 10
     Size:

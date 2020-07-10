@@ -15,14 +15,14 @@ namespace Lokel.Shockwave
 
     /// <summary>Add to a shockwave controller to inject randomly placed waves.</summary>
     [AddComponentMenu("Lokel/Random Shockwave Trigger")]
-    [RequireComponent(typeof(ShockwaveController))]
+    [RequireComponent(typeof(ShockwavePhysics))]
     public class RandomShockwaveTrigger : MonoBehaviour
     {
-        private ShockwaveController _Controller;
+        private ShockwavePhysics _Controller;
 
         private void Awake()
         {
-            _Controller = GetComponent<ShockwaveController>();
+            _Controller = GetComponent<ShockwavePhysics>();
         }
 
         public void OnPressMakeRandomShockwaveCentre()

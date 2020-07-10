@@ -19,8 +19,8 @@ using UnityEngine.Jobs;
 namespace Lokel.Shockwave
 {
 
-    [AddComponentMenu("Lokel/Shockwave Controller")]
-    public class ShockwaveController : MonoBehaviour
+    [AddComponentMenu("Lokel/Shockwave Physics")]
+    public class ShockwavePhysics : MonoBehaviour
     {
         [SerializeField]
         private GameObject Template = null;

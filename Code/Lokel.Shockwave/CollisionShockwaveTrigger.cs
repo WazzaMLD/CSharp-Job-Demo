@@ -24,13 +24,13 @@ namespace Lokel.Shockwave
     [RequireComponent(typeof(AudioSource))]
     public class CollisionShockwaveTrigger : MonoBehaviour
     {
-        private ShockwaveController _Controller = null;
+        private ShockwavePhysics _Controller = null;
 
         private Transform _Transform;
         private AudioSource _Audio;
         private ShockwaveData _Shockwave;
 
-        public void SetController(ShockwaveController controller)
+        public void SetController(ShockwavePhysics controller)
         {
             _Controller = controller;
         }
@@ -40,10 +40,10 @@ namespace Lokel.Shockwave
             ConfigureForShockwaveReaction();
         }
 
-        private ShockwaveController OnDemandGetController()
+        private ShockwavePhysics OnDemandGetController()
         {
             if (_Controller == null)
-                _Controller = GameObject.FindObjectOfType<ShockwaveController>();
+                _Controller = GameObject.FindObjectOfType<ShockwavePhysics>();
             return _Controller;
         }
 
@@ -65,7 +65,7 @@ namespace Lokel.Shockwave
             }
         }
 
-        private void UseController(Action<ShockwaveController> usage)
+        private void UseController(Action<ShockwavePhysics> usage)
         {
             var controller = OnDemandGetController();
             if (controller != null) usage(controller);
