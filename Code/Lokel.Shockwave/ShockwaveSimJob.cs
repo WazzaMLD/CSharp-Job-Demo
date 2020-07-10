@@ -2,7 +2,7 @@
  * (c) Copyright 2020 Lokel Digital Pty Ltd.
  * https://www.lokeldigital.com
  * 
- * LokelPackage can be used under the Creative Commons License AU by Attribution
+ * This Lokel package can be used under the Creative Commons License AU by Attribution
  * https://creativecommons.org/licenses/by/3.0/au/legalcode
  */
 
@@ -67,16 +67,13 @@ namespace Lokel.Shockwave
                 WaveTime = Centre.WaveTime,
                 Height = Cells[index].Height,
                 AdditionalHeight = Centre.Height,
-                NumberCentres = 1
+                CentreIndex = Centre.CentreIndex
             };
         }
 
         private void ProcessWithCentre(int index)
         {
             float2 cellPos = Cells[index].Position;
-            float cellHeight = Cells[index].Height;
-            float time = Cells[index].WaveTime;
-            int numCentres = Cells[index].NumberCentres;
 
             float distance = ShockDataExt.Distance(cellPos, Centre.Position);
 
@@ -91,9 +88,9 @@ namespace Lokel.Shockwave
                 new ShockwaveData()
                 {
                     Position = cellPos,
-                    Height = cellHeight,
-                    WaveTime = time,
-                    NumberCentres = numCentres + 1,
+                    Height = Cells[index].Height,
+                    WaveTime = Cells[index].WaveTime,
+                    CentreIndex = Cells[index].CentreIndex,
                     AdditionalHeight = additionalHeight
                 };
         }

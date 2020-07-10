@@ -2,7 +2,7 @@
  * (c) Copyright 2020 Lokel Digital Pty Ltd.
  * https://www.lokeldigital.com
  * 
- * LokelPackage can be used under the Creative Commons License AU by Attribution
+ * This Lokel package can be used under the Creative Commons License AU by Attribution
  * https://creativecommons.org/licenses/by/3.0/au/legalcode
  */
 
@@ -20,7 +20,7 @@ namespace Lokel.Shockwave
 {
 
     [AddComponentMenu("Lokel/Shockwave Controller")]
-    public class ShockWaveController : MonoBehaviour
+    public class ShockwaveController : MonoBehaviour
     {
         [SerializeField]
         private GameObject Template = null;
@@ -38,15 +38,21 @@ namespace Lokel.Shockwave
         private JobHandle _Handle;
         private JobHandle _CentresHandle;
 
-        public void OnPressMakeRandomShockwaveCentre()
-        {
-            float x = UnityEngine.Random.Range(0f, _Params.Size.x);
-            float y = UnityEngine.Random.Range(0f, _Params.Size.y);
+        /// <summary>Get size parameters for the floor to generate.</summary>
+        /// <returns>width and depth as a tuple of 2 floats</returns>
+        public (float width, float depth) GetSize() => (_Params.Size.x, _Params.Size.y);
 
-            ShockwaveData centre = ShockwaveData.Create(
-                x, y, -_Params.HeightFactor, math.PI / 2
+        /// <summary>Get the configured height factor</summary>
+        /// <returns>float height value.</returns>
+        public float GetHeightFactor() => _Params.HeightFactor;
+
+        internal void InjectShockwave(
+            ShockwaveData waveInfo
+        )
+        {
+            _CentresHandle = QueueJob<ShockwaveData>.AsyncEnqueue(
+                _Centres, waveInfo, _CentresHandle
             );
-            _CentresHandle = QueueJob<ShockwaveData>.AsyncEnqueue(_Centres, centre, _CentresHandle);
         }
 
         private void Awake()

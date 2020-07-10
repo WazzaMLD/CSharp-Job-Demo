@@ -2,9 +2,10 @@
  * (c) Copyright 2020 Lokel Digital Pty Ltd.
  * https://www.lokeldigital.com
  * 
- * LokelPackage can be used under the Creative Commons License AU by Attribution
+ * This Lokel package can be used under the Creative Commons License AU by Attribution
  * https://creativecommons.org/licenses/by/3.0/au/legalcode
  */
+
 
 using Unity.Mathematics;
 

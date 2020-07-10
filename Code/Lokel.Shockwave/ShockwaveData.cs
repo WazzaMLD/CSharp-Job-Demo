@@ -2,7 +2,7 @@
  * (c) Copyright 2020 Lokel Digital Pty Ltd.
  * https://www.lokeldigital.com
  * 
- * LokelPackage can be used under the Creative Commons License AU by Attribution
+ * This Lokel package can be used under the Creative Commons License AU by Attribution
  * https://creativecommons.org/licenses/by/3.0/au/legalcode
  */
 
@@ -17,7 +17,7 @@ namespace Lokel.Shockwave
         public float2 Position;
         public float Height;
         public float WaveTime;
-        public int NumberCentres;
+        public int CentreIndex;
         public float AdditionalHeight;
 
         public float Angle { get => (WaveTime + 0.5f) * math.PI; }
@@ -33,7 +33,7 @@ namespace Lokel.Shockwave
                 Position = position,
                 Height = height,
                 WaveTime = waveTime,
-                NumberCentres = 0,
+                CentreIndex = 0,
                 AdditionalHeight = 0
             };
         }
