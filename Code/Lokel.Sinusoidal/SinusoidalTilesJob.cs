@@ -9,10 +9,14 @@
 using Unity.Jobs;
 using UnityEngine.Jobs;
 using Unity.Mathematics;
+using Unity.Burst;
+
 using UnityEngine;
+
 
 namespace Lokel.Sinusoidal
 {
+    [BurstCompile]
     internal struct SinusoidalTilesJob : IJobParallelForTransform
     {
         public float time;

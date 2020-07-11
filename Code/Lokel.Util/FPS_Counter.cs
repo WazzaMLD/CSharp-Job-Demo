@@ -30,6 +30,9 @@ namespace Lokel.Util
         [Tooltip("How many frames before updating text (more is more accurate)")]
         [SerializeField] private int _FramesBetweenUpdate = 5;
 
+        [Tooltip("Correction factor so runtime measure = Statistic Window")]
+        [SerializeField] private float _FpsMultiplier = 3.3f;
+
         private void Awake()
         {
             _FpsBox = GetComponent<Text>();
@@ -41,7 +44,7 @@ namespace Lokel.Util
         private void Update()
         {
             CheckMinMaxStatus();
-            _ActualFps = 1.0f / Time.deltaTime;
+            _ActualFps = _FpsMultiplier * 1.0f / Time.deltaTime;
             if (_ShowMinMax) UpdateMinMax();
             if (IsDisplayUpdateFrame()) UpdateDisplay();
         }
@@ -60,8 +63,8 @@ namespace Lokel.Util
         {
             string message;
             message = _ShowMinMax
-                ? $"FPS: {_ActualFps,6:F0} Min: {_MinFps,3:F0} Max: {_MaxFps,3:F0}"
-                : $"FPS: {_ActualFps,6:F0} Min: --- Max: ---";
+                ? $"Approx FPS: {_ActualFps,6:F0} Min: {_MinFps,3:F0} Max: {_MaxFps,3:F0}"
+                : $"Approx FPS: {_ActualFps,6:F0} Min: --- Max: ---";
             _FpsBox.text = message;
         }
     }

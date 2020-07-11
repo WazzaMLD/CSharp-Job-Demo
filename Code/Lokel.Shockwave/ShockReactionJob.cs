@@ -10,12 +10,13 @@
 using Unity.Jobs;
 using UnityEngine.Jobs;
 using Unity.Mathematics;
-
+using Unity.Burst;
 using Unity.Collections;
 
 
 namespace Lokel.Shockwave
 {
+    [BurstCompile]
     internal struct ShockReactionJob : IJobParallelForTransform
     {
         public NativeArray<ShockwaveData> Cells;
