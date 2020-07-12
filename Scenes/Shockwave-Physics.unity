@@ -852,7 +852,7 @@ PrefabInstance:
     - target: {fileID: 6423164679482622308, guid: f22b7c983b7a4ea4891ae43f61b0b422,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.7
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 6423164679482622308, guid: f22b7c983b7a4ea4891ae43f61b0b422,
         type: 3}
@@ -862,7 +862,7 @@ PrefabInstance:
     - target: {fileID: 6423164679482622308, guid: f22b7c983b7a4ea4891ae43f61b0b422,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.95
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6423164679482622308, guid: f22b7c983b7a4ea4891ae43f61b0b422,
         type: 3}
@@ -883,6 +883,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FPS-Display
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423164680712822361, guid: f22b7c983b7a4ea4891ae43f61b0b422,
+        type: 3}
+      propertyPath: _FramesBetweenUpdate
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6423164680712822361, guid: f22b7c983b7a4ea4891ae43f61b0b422,
+        type: 3}
+      propertyPath: _FpsMultiplier
+      value: 3.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f22b7c983b7a4ea4891ae43f61b0b422, type: 3}
